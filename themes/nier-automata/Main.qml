@@ -51,8 +51,13 @@ Rectangle {
     readonly property string fontName: nierFont.name
 
     // Auto-focus fix for Quickshell (Loader does not propagate focus: true)
-    Timer { interval: 300; running: true; onTriggered: pwInput.forceActiveFocus() }
-
+    Timer { interval: 2000; running: true; onTriggered: pwInput.forceActiveFocus() }
+    Timer {
+    interval: 1000
+    running: true
+    repeat: true
+    onTriggered: if (!pwInput.activeFocus) pwInput.forceActiveFocus()
+    }
     Timer {
         interval: 1000; running: true; repeat: true
         onTriggered: {
@@ -373,7 +378,7 @@ Rectangle {
                 NumberAnimation { target: root; property: "panelOffset"; from: 60 * s; to: 0; duration: 1400; easing.type: Easing.OutExpo }
                 NumberAnimation { target: root; property: "brandReveal"; from: 0; to: 1; duration: 1800; easing.type: Easing.OutQuart }
             }
-            ScriptAction { script: missionTypewriter.start() }
+            ScriptAction { script: {missionTypewriter.start(); pwInput.forceActiveFocus()} }
         }
 
 
@@ -438,7 +443,7 @@ Rectangle {
                 anchors.right:  parent.right
                 model:        userModel
                 currentIndex: userModel.lastIndex
-                clip: true; spacing: 0; focus: true
+                clip: true; spacing: 0; focus: false
                 keyNavigationEnabled: true
 
                 highlight: Item {}  // disable default highlight

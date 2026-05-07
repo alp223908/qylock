@@ -10,24 +10,30 @@ Rectangle {
     readonly property real s: Screen.height / 768
     width: Screen.width
     height: Screen.height
-    color: root.bgColor
+    color: "transparent"
 
     // Theme Config
     readonly property string themeMode: config.themeMode || "dark"
     readonly property bool enableWindup: config.enableWindup === "true"
     readonly property bool isLight: themeMode === "light"
 
-    readonly property color bgColor: isLight ? "#ffffff" : "#000000"
-    readonly property color mainText: isLight ? "#000000" : "#ffffff"
-    readonly property color dimText: isLight ? "#666666" : "#666666"
-    readonly property color subColor: isLight ? "#666666" : "#555555"
-    readonly property color pillColor: isLight ? "#e8e8e8" : "#080808"
-    readonly property color pillBorder: isLight ? (root.isWindup ? "#aaaaaa" : "#cccccc") : (root.isWindup ? "#444" : "#1a1a1a")
-    readonly property color pillInnerLine: isLight ? (root.isWindup ? "#000000" : "#bbbbbb") : (root.isWindup ? "#ffffff" : "#222222")
-    readonly property color sparkColor: isLight ? "#000000" : "#ffffff"
-    readonly property color blastColor: isLight ? "#000000" : "#ffffff"
-    readonly property color userItemInactive: isLight ? "#cccccc" : "#444"
-    readonly property color inputWaitColor: isLight ? "#bbbbbb" : "#333333"
+	readonly property color bgColor:         "#060810"
+	readonly property color mainText:        "#cd3041"
+	readonly property color dimText:         "#7a3040"
+	readonly property color subColor:        "#5a4050"
+	readonly property color pillColor:       "#0d2a32"
+	readonly property color pillInnerLine:   "#2a0812"
+	readonly property color sparkColor:      "#e8163a"
+	readonly property color blastColor:      "#e8163a"
+	readonly property color userItemInactive:"#3a1a24"
+        readonly property color inputWaitColor:  "#7a9098"
+	readonly property color pillBorder:      "#5a4050"
+    Image {
+        anchors.fill: parent
+        source: "Songbird.jpg"
+        fillMode: Image.PreserveAspectCrop
+        z: -1
+    }
 
     // State Props
     property int sessionIndex: (sessionModel && sessionModel.lastIndex >= 0) ? sessionModel.lastIndex : 0
@@ -183,29 +189,29 @@ Rectangle {
             anchors.verticalCenter: parent.verticalCenter
             width: 800 * s
             height: parent.height
-            readonly property real cx: 40 * s 
+            readonly property real cx: 100 * s 
             readonly property real cy: height * 0.5
-            readonly property real minR: 320 * s 
-            readonly property real secR: 480 * s 
+            readonly property real minR: 200 * s 
+            readonly property real secR: 300 * s 
 
             Rectangle {
                 id: indicatorPill
                 z: 1
-                x: clockContainer.cx + 230 * s
+                x: clockContainer.cx + 0 * s
                 anchors.verticalCenter: parent.verticalCenter
-                width: 330 * s
+                width: 230 * s
                 height: 90 * s
                 radius: 45 * s
-                color: root.pillColor
-                border.color: root.pillBorder
-                border.width: 1 * s
-                Rectangle {
-                    x: 170 * s
-                    anchors.verticalCenter: parent.verticalCenter
-                    width: 1 * s
-                    height: 35 * s
-                    color: root.pillInnerLine
-                }
+                color: "transparent"
+//                border.color: root.pillBorder
+//                border.width: 1 * s
+//                Rectangle {
+//                    x: 100 * s
+//                    anchors.verticalCenter: parent.verticalCenter
+//                    width: 1 * s
+//                    height: 35 * s
+//                    color: root.pillInnerLine
+//                }
             }
 
             Repeater {
@@ -225,7 +231,7 @@ Rectangle {
                     visible: root.sparkIntensity > 0
                 }
             }
-
+//Minutes
             Repeater {
                 model: 60
                 delegate: Item {
@@ -248,7 +254,7 @@ Rectangle {
                         y: parent.ty - height/2
                         width: isMajor ? 2 * s : 1 * s
                         height: isMajor ? 18 * s : 10 * s
-                        color: isLight ? Qt.rgba(0, 0, 0, spotlight > 0 ? 1.0 : (isMajor ? 0.8 : 0.6)) : Qt.rgba(1, 1, 1, spotlight > 0 ? 1.0 : (isMajor ? 0.3 : 0.15))
+                        color:  Qt.rgba(0.77, 0.08, 0.20, spotlight > 0 ? 1.0 : (isMajor ? 0.3 : 0.15))
                         rotation: disp * 180 / Math.PI + 90
                     }
                     Text {
@@ -260,13 +266,13 @@ Rectangle {
                         font.family: outfitFont.name
                         font.pixelSize: 22 * s
                         font.weight: spotlight > 0.5 ? Font.Bold : Font.Normal
-                        color: isLight ? Qt.rgba(0, 0, 0, spotlight > 0 ? (0.6 + 0.4 * spotlight) : 0.6) : Qt.rgba(1, 1, 1, spotlight > 0 ? (0.4 + spotlight * 0.6) : 0.25)
+                        color:  Qt.rgba(0.77, 0.08, 0.20, spotlight > 0 ? (0.4 + spotlight * 0.6) : 0.25)
                         rotation: disp * 180 / Math.PI
                         transformOrigin: Item.Center
                     }
                 }
             }
-
+//Seconds
             Repeater {
                 model: 60
                 delegate: Item {
@@ -289,7 +295,7 @@ Rectangle {
                         y: parent.ty - height/2
                         width: isMajor ? 1.5 * s : 1 * s
                         height: isMajor ? 13 * s : 8 * s
-                        color: isLight ? Qt.rgba(0, 0, 0, spotlight > 0 ? 1.0 : (isMajor ? 0.8 : 0.6)) : Qt.rgba(1, 1, 1, spotlight > 0 ? 1.0 : (isMajor ? 0.3 : 0.15))
+                        color:  Qt.rgba(0.77, 0.08, 0.20, spotlight > 0 ? 1.0 : (isMajor ? 0.3 : 0.15))
                         rotation: disp * 180 / Math.PI + 90
                     }
                     Text {
@@ -301,40 +307,43 @@ Rectangle {
                         font.family: outfitFont.name
                         font.pixelSize: 16 * s
                         font.weight: spotlight > 0.5 ? Font.Bold : Font.Normal
-                        color: isLight ? Qt.rgba(0, 0, 0, spotlight > 0 ? (0.6 + 0.4 * spotlight) : 0.6) : Qt.rgba(1, 1, 1, spotlight > 0 ? (0.4 + spotlight * 0.6) : 0.25)
+                        color:  Qt.rgba(0.77, 0.08, 0.20, spotlight > 0 ? (0.4 + spotlight * 0.6) : 0.25)
                         rotation: disp * 180 / Math.PI
                         transformOrigin: Item.Center
                     }
                 }
             }
-
+//Hours
             Text {
-                anchors.right: indicatorPill.left
-                anchors.rightMargin: 40 * s
-                anchors.verticalCenter: parent.verticalCenter
+                //anchors.right: clockContainer.center
+                //anchors.rightMargin: 0 * s
+                //anchors.verticalCenter: parent.verticalCenter
+		x:clockContainer.cx - width / 2
+		y:clockContainer.cy - height / 2
                 text: String(root.curH).padStart(2, '0')
                 font.family: outfitFont.name
                 font.pixelSize: 110 * s
                 font.weight: Font.Black
                 color: root.mainText
             }
+	    //Date
             Column {
-                anchors.left: indicatorPill.right
-                anchors.leftMargin: 110 * s
+                anchors.left: clockContainer.right
+                anchors.leftMargin: 50 * s
                 anchors.verticalCenter: parent.verticalCenter
                 spacing: 5 * s
                 Text {
                     text: Qt.formatDate(new Date(), "dd MMM yyyy").toUpperCase()
                     font.family: outfitFont.name
-                    font.pixelSize: 13 * s
-                    font.letterSpacing: 4 * s
+                    font.pixelSize: 20 * s
+                    font.letterSpacing: 2 * s
                     color: root.subColor
                 }
                 Text {
                     text: Qt.formatDate(new Date(), "dddd").toUpperCase()
                     font.family: outfitFont.name
-                    font.pixelSize: 18 * s
-                    font.letterSpacing: 8 * s
+                    font.pixelSize: 35 * s
+                    font.letterSpacing: 4 * s
                     font.weight: Font.Bold
                     color: root.mainText
                 }
